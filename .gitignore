@@ -10,3 +10,7 @@ build/
 # gradle files
 .gradle/
 gradle/
+
+# Mac files
+**/.DS_Store
+.DS_Store
