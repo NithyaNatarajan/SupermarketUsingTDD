@@ -1,0 +1,12 @@
+# IDE specific files
+.idea
+*.iml
+
+# build and output files
+out/
+bin/
+build/
+
+# gradle files
+.gradle/
+gradle/
