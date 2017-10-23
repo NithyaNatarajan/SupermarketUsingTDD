@@ -1,16 +1,21 @@
 import exception.InvalidArticleConfigurationException;
 
+import java.math.BigDecimal;
 import java.util.Objects;
+
+import static java.math.BigDecimal.ZERO;
 
 public class Article {
     private final String id;
     private final String name;
-    private final double price;
-    private final double CGST;
-    private final double SGST;
+    private final BigDecimal price;
+    private final BigDecimal CGST;
+    private final BigDecimal SGST;
 
-    public Article(String id, String name, double price, double CGST, double SGST) {
-        if (CGST < 0 || CGST > 100 || SGST < 0 || SGST > 100) {
+    private static final BigDecimal HUNDRED = new BigDecimal(100);
+
+    public Article(String id, String name, BigDecimal price, BigDecimal CGST, BigDecimal SGST) {
+        if (CGST.compareTo(ZERO) < 0 || CGST.compareTo(HUNDRED) > 0 || SGST.compareTo(ZERO) < 0 || SGST.compareTo(HUNDRED) > 0) {
             throw new InvalidArticleConfigurationException("TAX should be between 0 and 100");
         }
 
@@ -25,8 +30,10 @@ public class Article {
         return name;
     }
 
-    public double getUnitPrice() {
-        return price + price * (CGST / 100) + price * (SGST / 100);
+    public BigDecimal getUnitPrice() {
+        BigDecimal cgst = price.multiply(CGST.divide(HUNDRED));
+        BigDecimal sgst = price.multiply(SGST.divide(HUNDRED));
+        return price.add(cgst).add(sgst).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     @Override
@@ -36,7 +43,7 @@ public class Article {
         Article article = (Article) o;
         return Objects.equals(id, article.id)
                 && Objects.equals(name, article.name)
-                && Double.compare(article.price, price) == 0;
+                && Objects.equals(article.price, price);
     }
 
     @Override

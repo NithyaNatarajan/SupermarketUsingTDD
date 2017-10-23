@@ -9,6 +9,6 @@ public class SaleItem {
     }
 
     public double getPrice() {
-        return article.getUnitPrice() * quantity;
+        return article.getUnitPrice().doubleValue() * quantity;
     }
 }
