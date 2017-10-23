@@ -14,6 +14,6 @@ public class SaleItemTest {
         when(pencil.getUnitPrice()).thenReturn(new BigDecimal(3.0));
         SaleItem saleItem = new SaleItem(pencil, 10);
 
-        assertEquals(30, saleItem.getPrice(), 0);
+        assertEquals(30, saleItem.getPrice().doubleValue(), 0);
     }
 }

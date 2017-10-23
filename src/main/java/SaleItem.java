@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 public class SaleItem {
 
     private Article article;
@@ -8,7 +10,9 @@ public class SaleItem {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return article.getUnitPrice().doubleValue() * quantity;
+    public BigDecimal getPrice() {
+        return article.getUnitPrice()
+                .multiply(new BigDecimal(quantity))
+                .setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }
