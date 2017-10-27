@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CashRegisterTest {
 
@@ -30,6 +31,16 @@ public class CashRegisterTest {
         assertFalse(printer.wasPrintCalled());
     }
 
+    @Test
+    public void shouldPrintSomethingWhenThereIsPurchase() {
+        DummyPrinter printer = new DummyPrinter();
+        CashRegister cashRegister = new CashRegister(printer);
+
+        cashRegister.process(new DummyOrder());
+
+        assertTrue(printer.wasPrintCalled());
+    }
+
     class DummyPrinter extends Printer {
         private boolean wasCalled = false;
 
@@ -39,6 +50,12 @@ public class CashRegisterTest {
 
         public boolean wasPrintCalled() {
             return wasCalled;
+        }
+    }
+
+    class DummyOrder extends Order {
+        public DummyOrder() {
+            super(null);
         }
     }
 }

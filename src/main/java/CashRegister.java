@@ -12,6 +12,9 @@ public class CashRegister {
     }
 
     public void process(Order order) {
-        throw new NoOrderException("No order found to print");
+        if (order == null) {
+            throw new NoOrderException("No order found to print");
+        }
+        printer.print("Meow");
     }
 }
