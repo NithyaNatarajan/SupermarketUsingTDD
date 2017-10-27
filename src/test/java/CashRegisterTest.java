@@ -36,26 +36,51 @@ public class CashRegisterTest {
         DummyPrinter printer = new DummyPrinter();
         CashRegister cashRegister = new CashRegister(printer);
 
-        cashRegister.process(new DummyOrder());
+        cashRegister.process(new DummyOrder(""));
 
         assertTrue(printer.wasPrintCalled());
     }
 
+    @Test
+    public void shouldPrintReceiptWhenThereIsPurchase() {
+        String string = "DummyString";
+        DummyPrinter printer = new DummyPrinter();
+        CashRegister cashRegister = new CashRegister(printer);
+
+        cashRegister.process(new DummyOrder(string));
+
+        assertTrue(printer.wasPrintCalledWith(string));
+    }
+
     class DummyPrinter extends Printer {
         private boolean wasCalled = false;
+        private String actual;
 
         public void print(String printThis) {
+            actual = printThis;
             wasCalled = true;
         }
 
         public boolean wasPrintCalled() {
             return wasCalled;
         }
+
+        public boolean wasPrintCalledWith(String expectedString) {
+            return wasCalled && actual.equals(expectedString);
+        }
     }
 
     class DummyOrder extends Order {
-        public DummyOrder() {
+        private String receipt;
+
+        public DummyOrder(String receipt) {
             super(null);
+            this.receipt = receipt;
+        }
+
+        @Override
+        public String toString() {
+            return receipt;
         }
     }
 }

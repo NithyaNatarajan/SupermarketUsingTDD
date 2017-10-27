@@ -15,6 +15,6 @@ public class CashRegister {
         if (order == null) {
             throw new NoOrderException("No order found to print");
         }
-        printer.print("Meow");
+        printer.print(order.toString());
     }
 }
