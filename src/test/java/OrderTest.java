@@ -4,15 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class OrderTest {
 
     @Test
     public void shouldReturnTotalPrice() {
-        SaleItem saleItem = mock(SaleItem.class);
-        when(saleItem.getPrice()).thenReturn(new BigDecimal(60.1002));
+        SaleItem saleItem = new DummySaleItem(60.1002);
         ArrayList<SaleItem> saleItems = new ArrayList<>();
         saleItems.add(saleItem);
 
@@ -23,11 +20,8 @@ public class OrderTest {
 
     @Test
     public void shouldReturnTotalPriceForMoreThanOneSales() {
-        SaleItem pencil = mock(SaleItem.class);
-        when(pencil.getPrice()).thenReturn(new BigDecimal(30.0));
-
-        SaleItem eraser = mock(SaleItem.class);
-        when(eraser.getPrice()).thenReturn(new BigDecimal(10.0));
+        SaleItem pencil = new DummySaleItem(30.0);
+        SaleItem eraser = new DummySaleItem(10.0);
 
         ArrayList<SaleItem> saleItems = new ArrayList<>();
         saleItems.add(pencil);
@@ -36,5 +30,19 @@ public class OrderTest {
         Order order = new Order(saleItems);
 
         assertEquals(40, order.getTotalPrice().doubleValue(), 0);
+    }
+
+
+    class DummySaleItem extends SaleItem {
+        private BigDecimal price;
+
+        public DummySaleItem(double price) {
+            super(null, 1);
+            this.price = new BigDecimal(price);
+        }
+
+        public BigDecimal getPrice() {
+            return price;
+        }
     }
 }
