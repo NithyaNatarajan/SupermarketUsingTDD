@@ -15,6 +15,10 @@ public class Article {
     private static final BigDecimal HUNDRED = new BigDecimal(100);
 
     public Article(String id, String name, BigDecimal price, BigDecimal CGST, BigDecimal SGST) {
+        if (price.compareTo(ZERO) < 0) {
+            throw new InvalidArticleConfigurationException("Price should be grater than 0");
+        }
+
         if (CGST.compareTo(ZERO) < 0 || CGST.compareTo(HUNDRED) > 0 || SGST.compareTo(ZERO) < 0 || SGST.compareTo(HUNDRED) > 0) {
             throw new InvalidArticleConfigurationException("TAX should be between 0 and 100");
         }

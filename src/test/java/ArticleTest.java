@@ -23,6 +23,13 @@ public class ArticleTest {
     }
 
     @Test
+    public void shouldThrowErrorWhenPriceIsLessThan0() {
+        exception.expect(InvalidArticleConfigurationException.class);
+        exception.expectMessage("Price should be grater than 0");
+        new Article("Art0001", "Pencil", new BigDecimal(-1), ZERO, ZERO);
+    }
+
+    @Test
     public void shouldReturnTrueWhenComparingTwoSameArticles() {
         Article pencil1 = getPencilWithId("Art0001");
         Article pencil2 = getPencilWithId("Art0001");
